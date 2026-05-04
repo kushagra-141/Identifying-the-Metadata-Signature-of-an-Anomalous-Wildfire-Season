@@ -1,64 +1,75 @@
 # Identifying the Metadata Signature of an Anomalous Wildfire Season
-## A Big Data Analytics Study Using NASA EONET API v3
+
+## 🛰️ NASA EONET Big Data Analytics Study
 
 ![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![NASA EONET](https://img.shields.io/badge/Data%20Source-NASA%20EONET%20API%20v3-red)
 
-This project applies big data mining techniques to NASA EONET wildfire metadata to identify structural attributes distinguishing anomalous fire seasons from historical baselines. Using over 11,000 events spanning 2016–2026, it provides a comprehensive analysis of the "Mega-Fire Signature" and introduces three operational fire intelligence tools.
+### 📌 Project Overview
+This project applies big data mining and machine learning techniques to a decade of NASA Earth Observatory Natural Event Tracker (EONET) wildfire metadata (2016–2026). The study identifies a "Mega-Fire Signature"—a structural shift in reporting patterns and geographic distribution that distinguishes the 2024–2026 period as historically anomalous.
 
-## 🚀 Key Findings
-- **Anomalous Volume**: Fire activity in 2024–2026 showed a **23.8×** increase in monthly event counts compared to the 2016–2023 baseline.
-- **Geographic Shift**: The geographic center of fire activity moved **1.83 degrees toward the equator** per year ($p = 0.007$).
-- **Mega-Fire Signature**: Identified a structural inversion in reporting agency ratios (from IRWIN-dominant to GDACS-dominant) as the strongest predictor of anomalous activity.
+### 🚀 Key Findings
+- **Volume Surge**: Fire activity in 2024–2026 showed a **23.8×** increase in monthly event counts compared to the 2016–2023 baseline.
+- **Reporting Inversion**: Identified a shift from IRWIN-dominant (US domestic) to GDACS-dominant (global) reporting as the strongest metadata predictor of the anomalous period.
+- **Equatorward Drift**: Observed a statistically significant southward shift in global fire activity ($1.83^\circ$ per year, $p=0.007$), driven by the expansion of global reporting sources.
+- **Magnitude Shift**: Statistical analysis using Robust Z-scores (MAD) confirmed a significant increase in median fire magnitude during the anomaly era.
 
-## 🛠️ Fire Intelligence System
-The project implements three operational tools for wildfire analysis:
-1. **Location Fire Risk Scorer**: Divided the globe into $2^\circ \times 2^\circ$ cells to compute 10-year fire recurrence rates (e.g., Los Angeles & Northern California identified as "VERY HIGH" risk).
-2. **Monthly Activity Anomaly Detector**: A Decision Tree classifier achieving **96.6% accuracy** ($\pm 1.7\%$) in detecting anomalous months.
-3. **Geographic Scope Monitor**: Tracks the equatorward drift and hemisphere distribution of global wildfires.
+---
 
-## 📊 Visualizations
-The analysis includes several key visualizations (generated as PNGs):
-- **Global Geospatial Map**: Wildfire locations by season.
-- **Magnitude Distribution**: KDE and histogram comparisons of fire magnitudes.
-- **Anomaly Heatmap**: Event counts by magnitude bin and season.
-- **Agency Composition**: The shift between IRWIN and GDACS reporting.
+### 🛡️ Fire Intelligence System
+The repository implements three operational tools for real-time and historical wildfire analysis:
 
-## 💻 Installation & Usage
+1.  **📍 Location Fire Risk Scorer**:
+    - Divides the globe into $2^\circ \times 2^\circ$ grid cells.
+    - Computes 10-year fire recurrence probabilities.
+    - Categorizes locations from "LOW" to "VERY HIGH" risk (e.g., Northern California identified as "VERY HIGH").
 
-### Requirements
-- Python 3.10+
-- Dependencies: `requests`, `pandas`, `scipy`, `scikit-learn`, `matplotlib`, `seaborn`
+2.  **📉 Monthly Activity Anomaly Detector**:
+    - A Decision Tree classifier trained on metadata features (`log_count`, `irwin_share`, `geographic_diversity`).
+    - Achieves **96.6% accuracy** in detecting anomalous fire months.
+    - Uses IQR-based fencing for volume-based anomaly detection.
 
+3.  **🌍 Geographic Scope Monitor**:
+    - Tracks the hemisphere distribution and mean absolute latitude of global fires.
+    - Detects large-scale geographic shifts in fire intelligence reporting.
+
+---
+
+### 📊 Methodology & Visualizations
+The analysis is supported by a rigorous statistical framework:
+- **Non-Parametric Testing**: Mann-Whitney U tests for magnitude distribution shifts.
+- **Robust Statistics**: Median Absolute Deviation (MAD) for z-score normalization in skewed datasets.
+- **Visual Evidence**:
+    - **Global Geospatial Map**: Visualizing fire intensity by location and season.
+    - **Magnitude Distribution**: KDE and log-histogram comparisons.
+    - **Anomaly Heatmap**: Stratified analysis of event counts across magnitude bins.
+    - **Agency Composition**: Tracking the shift in primary reporting sources.
+
+---
+
+### 💻 Installation & Usage
+
+#### Prerequisites
 ```bash
 python -m pip install requests pandas scipy scikit-learn matplotlib seaborn
 ```
 
-### Execution Order
-To reproduce the analysis, run the scripts in the following order:
-
-1. **Fetch Two-Season Data**: `python eonet_fetch.py`
-2. **Attribute Discovery**: `python attribute_discovery.py`
-3. **Statistical Methodology**: `python methodology.py`
-4. **Generate Visualizations**: `python visualizations.py`
-5. **Evidence Table**: `python evidence_table.py`
-6. **Historical Validation**: `python historical_validation.py`
-7. **Fetch Ten-Year Data**: `python fetch_10yr.py` && `python patch_2021.py`
-8. **Fire Intelligence System**: `python fire_intelligence.py`
-
-*Note: Data is cached locally after the first fetch. Subsequent runs will use the local CSV files.*
-
-## 📄 Project Structure
-- `report.tex`: Full technical report.
-- `*.py`: Analysis and data processing scripts.
-- `*.csv`: Cached datasets from NASA EONET.
-- `*.png`: Generated figures and tools output.
-
-## 👤 Author
-**Kushagra Gupta**
-- RIT (Rochester Institute of Technology)
-- Email: kg2347@g.rit.edu
+#### Reproduction Pipeline
+Run the scripts in the following order to reproduce the analysis:
+1.  `fetch_10yr.py`: Ingests a decade of EONET data month-by-month.
+2.  `attribute_discovery.py`: Performs initial feature importance analysis.
+3.  `methodology.py`: Applies robust z-scores and trains the classifier.
+4.  `visualizations.py`: Generates the primary analysis figures.
+5.  `evidence_table.py`: Produces the statistical summary table.
+6.  `fire_intelligence.py`: Runs the operational intelligence tools.
 
 ---
-*This study was conducted as a Big Data Analytics project using the NASA EONET API.*
+
+### 👤 Author
+**Kushagra Gupta**  
+Rochester Institute of Technology (RIT)  
+📧 [kg2347@g.rit.edu](mailto:kg2347@g.rit.edu)
+
+---
+*This repository contains the codebase and data analysis for the Big Data Analytics Final Project.*
